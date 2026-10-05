@@ -1,0 +1,25 @@
+{
+  "Browser": "Google Chrome 130.0.6723.70 (x64)",
+  "Profile": "Default (Incognito Session Active)",
+  "ActiveSessionUser": "dvance",
+  "FormUploadArtefacts": [
+    {
+      "Timestamp_UTC": "2026-10-04 18:35:40",
+      "Action": "HTTP_MULTIPART_POST_UPLOAD",
+      "Destination_URL": "https://dropfile.to/api/upload",
+      "Destination_IP": "185.220.101.42",
+      "Source_File_Path": "C:\\Users\\Public\\project_backup_v2.zip",
+      "File_Size_Bytes": 142840112,
+      "Content_Type": "application/zip",
+      "Server_Response_JSON": {
+        "status": "success",
+        "file_id": "9x8K2L1q",
+        "file_name": "project_backup_v2.zip",
+        "download_url": "https://dropfile.to/d/9x8K2L1q",
+        "pass_code": "droneAI_v4_secret",
+        "expires_in": "86400",
+        "uploaded_from_ip": "192.168.1.45"
+      }
+    }
+  ]
+}
