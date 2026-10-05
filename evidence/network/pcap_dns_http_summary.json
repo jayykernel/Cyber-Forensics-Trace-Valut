@@ -1,0 +1,56 @@
+{
+  "CaptureFile": "lab_gateway_span_20261004.pcap",
+  "CaptureTime_UTC": "2026-10-04 18:00:00 to 19:00:00",
+  "MonitoredSubnet": "192.168.1.0/24",
+  "DNS_Queries": [
+    {
+      "Timestamp_UTC": "2026-10-04 18:31:12",
+      "ClientIP": "192.168.1.45",
+      "Query": "dropfile.to",
+      "AnswerIP": "185.220.101.42",
+      "TTL": 300
+    },
+    {
+      "Timestamp_UTC": "2026-10-04 18:34:10",
+      "ClientIP": "192.168.1.45",
+      "Query": "tempmail.org",
+      "AnswerIP": "104.21.34.12",
+      "TTL": 300
+    },
+    {
+      "Timestamp_UTC": "2026-10-04 18:37:50",
+      "ClientIP": "192.168.1.78",
+      "Query": "mail.proton.me",
+      "AnswerIP": "185.70.40.185",
+      "TTL": 300
+    }
+  ],
+  "TLS_SNI_Sessions": [
+    {
+      "Timestamp_UTC": "2026-10-04 18:14:20",
+      "SrcIP": "192.168.1.78",
+      "DstIP": "192.168.1.45",
+      "Port": 3389,
+      "Protocol": "RDP",
+      "Service": "Terminal Services"
+    },
+    {
+      "Timestamp_UTC": "2026-10-04 18:35:35",
+      "SrcIP": "192.168.1.45",
+      "DstIP": "185.220.101.42",
+      "Port": 443,
+      "SNI": "dropfile.to",
+      "BytesOut": 143120400,
+      "Method": "POST /api/upload"
+    },
+    {
+      "Timestamp_UTC": "2026-10-04 18:38:00",
+      "SrcIP": "192.168.1.78",
+      "DstIP": "185.70.40.185",
+      "Port": 443,
+      "SNI": "mail.proton.me",
+      "BytesOut": 185400,
+      "Method": "POST /api/messages"
+    }
+  ]
+}
