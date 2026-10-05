@@ -1,0 +1,88 @@
+[
+  {
+    "EventID": 4624,
+    "Timestamp_UTC": "2026-10-04 08:30:15",
+    "EventType": "Logon",
+    "LogonType": 2,
+    "LogonTypeDescription": "Interactive (Console)",
+    "TargetUserName": "amercer",
+    "TargetDomainName": "LAB-DOMAIN",
+    "WorkstationName": "LAB-WS-07",
+    "IpAddress": "127.0.0.1",
+    "IpPort": "0",
+    "Status": "Success",
+    "Notes": "Normal morning logon by legitimate student Alex Mercer"
+  },
+  {
+    "EventID": 4800,
+    "Timestamp_UTC": "2026-10-04 18:05:00",
+    "EventType": "Workstation Locked",
+    "TargetUserName": "amercer",
+    "WorkstationName": "LAB-WS-07",
+    "Notes": "Alex Mercer locks workstation screen before leaving for dinner"
+  },
+  {
+    "EventID": 4624,
+    "Timestamp_UTC": "2026-10-04 18:14:22",
+    "EventType": "Logon",
+    "LogonType": 10,
+    "LogonTypeDescription": "RemoteInteractive (RDP)",
+    "TargetUserName": "dvance",
+    "TargetDomainName": "LAB-DOMAIN",
+    "WorkstationName": "DEV-LAPTOP-14",
+    "IpAddress": "192.168.1.78",
+    "IpPort": "49822",
+    "Status": "Success",
+    "Notes": "UNAUTHORIZED REMOTE DESKTOP SESSION established from David Vance laptop"
+  },
+  {
+    "EventID": 4688,
+    "Timestamp_UTC": "2026-10-04 18:22:08",
+    "EventType": "Process Creation",
+    "SubjectUserName": "dvance",
+    "NewProcessName": "C:\\Program Files\\7-Zip\\7z.exe",
+    "CommandLine": "7z.exe a -tzip C:\\Users\\Public\\project_backup_v2.zip C:\\Projects\\FinalYear_DroneAI\\*",
+    "ParentProcessName": "C:\\Windows\\System32\\cmd.exe",
+    "Notes": "Compression tool used to bundle all project files into staging area"
+  },
+  {
+    "EventID": 7045,
+    "Timestamp_UTC": "2026-10-04 18:28:30",
+    "EventType": "Service Installed / Driver Load",
+    "ServiceName": "USBSTOR",
+    "ImagePath": "C:\\Windows\\System32\\drivers\\USBSTOR.SYS",
+    "ServiceType": "Kernel Driver",
+    "Notes": "USB Storage driver engaged upon external drive connection"
+  },
+  {
+    "EventID": 4688,
+    "Timestamp_UTC": "2026-10-04 18:31:10",
+    "EventType": "Process Creation",
+    "SubjectUserName": "dvance",
+    "NewProcessName": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "CommandLine": "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --incognito https://dropfile.to",
+    "ParentProcessName": "C:\\Windows\\explorer.exe",
+    "Notes": "Browser launched in incognito mode targeting file upload service"
+  },
+  {
+    "EventID": 4688,
+    "Timestamp_UTC": "2026-10-04 18:41:48",
+    "EventType": "Process Creation",
+    "SubjectUserName": "dvance",
+    "NewProcessName": "C:\\Windows\\System32\\cmd.exe",
+    "CommandLine": "cmd.exe /c del /f /q C:\\Users\\Public\\project_backup_v2.zip",
+    "ParentProcessName": "C:\\Windows\\explorer.exe",
+    "Notes": "Command executed to delete staging zip file from disk"
+  },
+  {
+    "EventID": 4634,
+    "Timestamp_UTC": "2026-10-04 18:42:10",
+    "EventType": "Logoff",
+    "LogonType": 10,
+    "TargetUserName": "dvance",
+    "TargetDomainName": "LAB-DOMAIN",
+    "WorkstationName": "DEV-LAPTOP-14",
+    "IpAddress": "192.168.1.78",
+    "Notes": "David Vance terminates RDP session after exfiltration"
+  }
+]
