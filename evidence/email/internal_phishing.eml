@@ -1,0 +1,16 @@
+From: "David Vance" <dvance@university.edu>
+To: "Alex Mercer" <amercer@university.edu>
+Subject: Quick question about your LiDAR training scripts
+Date: Fri, 2 Oct 2026 14:12:00 +0000
+Message-ID: <UNIV-MSG-20261002-8812@university.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+
+Hey Alex,
+
+Great presentation at the departmental seminar yesterday! Are you keeping all your final training weights and dataset parquet files on your local workstation drive C:\Projects\FinalYear_DroneAI or are they synced to the departmental network share?
+
+Wanted to benchmark my path-planning script against your latest weights if possible.
+
+Thanks,
+David
