@@ -1,0 +1,51 @@
+{
+  "RegistryHive": "SYSTEM / NTUSER.DAT (dvance)",
+  "USBSTOR_Artifacts": [
+    {
+      "DeviceClass": "Disk",
+      "Vendor": "SanDisk",
+      "Product": "Ultra USB 3.0",
+      "SerialNumber": "4C530001290818115243",
+      "VolumeGuid": "{d3f4a10e-8a12-4c28-98e3-0941bc4a72e9}",
+      "AssignedDriveLetter": "E:",
+      "FirstInstallDate_UTC": "2026-10-04 18:28:30",
+      "LastArrivalDate_UTC": "2026-10-04 18:28:30",
+      "LastRemovalDate_UTC": "2026-10-04 18:40:15",
+      "RegisteredOwner": "David Vance (Registered in Lab Device Asset Database)"
+    }
+  ],
+  "UserAssist_MRU": [
+    {
+      "Executable": "7z.exe",
+      "RunCount": 1,
+      "LastExecution_UTC": "2026-10-04 18:22:08"
+    },
+    {
+      "Executable": "chrome.exe",
+      "RunCount": 4,
+      "LastExecution_UTC": "2026-10-04 18:31:10"
+    },
+    {
+      "Executable": "cmd.exe",
+      "RunCount": 3,
+      "LastExecution_UTC": "2026-10-04 18:41:48"
+    }
+  ],
+  "Shellbags_FolderAccess": [
+    {
+      "FolderPath": "C:\\Projects\\FinalYear_DroneAI",
+      "LastAccess_UTC": "2026-10-04 18:17:45",
+      "AccessingUser": "dvance"
+    },
+    {
+      "FolderPath": "C:\\Users\\Public",
+      "LastAccess_UTC": "2026-10-04 18:22:15",
+      "AccessingUser": "dvance"
+    },
+    {
+      "FolderPath": "E:\\Stolen_Dump",
+      "LastAccess_UTC": "2026-10-04 18:29:10",
+      "AccessingUser": "dvance"
+    }
+  ]
+}
