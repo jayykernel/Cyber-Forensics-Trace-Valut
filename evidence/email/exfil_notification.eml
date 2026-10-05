@@ -1,0 +1,34 @@
+From: "David Vance" <david.vance99@protonmail.com>
+To: "Dr. Jonathan Stern" <j.stern@competitor-lab.org>
+Cc: "David Vance (Student)" <dvance@university.edu>
+Subject: Final Drone AI Codebase & Trained Model Weights (Alex's Project)
+Date: Sun, 4 Oct 2026 18:38:05 +0000
+Message-ID: <CABp=8gP7xQ8L1m+u99k2819_exfil@mail.proton.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Originating-IP: [192.168.1.78]
+X-Mailer: ProtonMail Web Client v5.0.32
+Authentication-Results: mail.competitor-lab.org; dkim=pass header.i=@protonmail.com
+
+Dear Dr. Stern,
+
+Following our discussion regarding the funded research fellowship in your autonomous robotics lab, I have secured the full proprietary repository for the real-time Transformer LiDAR obstacle avoidance system from Alex Mercer's workstation here at the University.
+
+Because the entire repository (source code, trained model weights, lidar point cloud evaluation datasets, and full dissertation draft) exceeds email attachment limits (~142.8 MB), I have staged and uploaded the encrypted archive to an anonymous secure drop:
+
+Download Link: https://dropfile.to/d/9x8K2L1q
+Access Passcode: droneAI_v4_secret
+MD5 Checksum: e4d909c290d0fb1ca068ffaddf22cbd0
+
+Contents in archive:
+1. drone_nav_core.py (Transformer-LiDAR hybrid navigation algorithm)
+2. neural_weights_v4.bin (Trained weights from 500+ simulated GPU flight hours)
+3. dataset_lidar_final.parquet (Raw proprietary benchmark point cloud data)
+4. project_final_report.docx (Complete technical writeup and patent disclosures)
+
+Please confirm once you have downloaded the files so I can purge the upload link. I look forward to finalizing my fellowship offer letter next week.
+
+Best regards,
+David Vance
+Department of Computer Science & Robotics
+Student ID: CS-2026-9012
