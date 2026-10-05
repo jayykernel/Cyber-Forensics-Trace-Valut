@@ -1,0 +1,33 @@
+{
+  "recovered_artifact_id": "CARVED-ZIP-001",
+  "original_path": "C:\\Users\\Public\\project_backup_v2.zip",
+  "carved_from_cluster": 4892140,
+  "signature": "PK\\x03\\x04 (ZIP Archive)",
+  "file_size_bytes": 142840112,
+  "creation_time_utc": "2026-10-04 18:22:10",
+  "deletion_time_utc": "2026-10-04 18:41:50",
+  "archive_manifest": [
+    {
+      "filename": "drone_nav_core.py",
+      "uncompressed_size": 1420,
+      "crc32": "7F82A1B0"
+    },
+    {
+      "filename": "neural_weights_v4.bin",
+      "uncompressed_size": 52428800,
+      "crc32": "C319E492"
+    },
+    {
+      "filename": "dataset_lidar_final.parquet",
+      "uncompressed_size": 81920000,
+      "crc32": "89DF021A"
+    },
+    {
+      "filename": "project_final_report.docx",
+      "uncompressed_size": 452000,
+      "crc32": "4B1883F1"
+    }
+  ],
+  "deleted_by_process": "cmd.exe /c del C:\\Users\\Public\\project_backup_v2.zip",
+  "recovery_status": "FULL_METADATA_AND_HEADER_RECOVERED"
+}
