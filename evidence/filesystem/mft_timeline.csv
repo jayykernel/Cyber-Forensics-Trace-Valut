@@ -1,0 +1,13 @@
+RecordID,Timestamp_UTC,Action,FilePath,FileSize_Bytes,UserAccount,ProcessName,MACB_Flags,Notes
+MFT-10492,2026-10-04 09:15:00,FILE_MODIFY,C:\Projects\FinalYear_DroneAI\drone_nav_core.py,1420,amercer,code.exe,M...,Routine development by author
+MFT-10493,2026-10-04 10:45:22,FILE_MODIFY,C:\Projects\FinalYear_DroneAI\dataset_lidar_final.parquet,81920000,amercer,python.exe,M.B.,Test flight dataset export
+MFT-10494,2026-10-04 16:30:10,FILE_MODIFY,C:\Projects\FinalYear_DroneAI\project_final_report.docx,452000,amercer,winword.exe,M...,Draft thesis updated
+MFT-10500,2026-10-04 18:05:00,SESSION_LOCK,C:\Windows\System32\LogonUI.exe,0,amercer,winlogon.exe,....,Workstation locked as Alex Mercer left for dinner
+MFT-10512,2026-10-04 18:17:45,FILE_ACCESS,C:\Projects\FinalYear_DroneAI\drone_nav_core.py,1420,dvance,explorer.exe,.A..,Unauthorized directory traversal into Alex project
+MFT-10513,2026-10-04 18:17:50,FILE_ACCESS,C:\Projects\FinalYear_DroneAI\neural_weights_v4.bin,52428800,dvance,explorer.exe,.A..,Accessed proprietary weights
+MFT-10514,2026-10-04 18:17:55,FILE_ACCESS,C:\Projects\FinalYear_DroneAI\dataset_lidar_final.parquet,81920000,dvance,explorer.exe,.A..,Accessed lidar test datasets
+MFT-10515,2026-10-04 18:18:02,FILE_ACCESS,C:\Projects\FinalYear_DroneAI\project_final_report.docx,452000,dvance,explorer.exe,.A..,Accessed dissertation document
+MFT-10520,2026-10-04 18:22:10,FILE_CREATE,C:\Users\Public\project_backup_v2.zip,142840112,dvance,7z.exe,MACB,Staging archive created containing all project files
+MFT-10535,2026-10-04 18:29:12,FILE_CREATE,E:\Stolen_Dump\project_backup_v2.zip,142840112,dvance,explorer.exe,M.C.,Copy attempted to Removable USB Drive (SanDisk)
+MFT-10548,2026-10-04 18:31:20,FILE_ACCESS,C:\Users\Public\project_backup_v2.zip,142840112,dvance,chrome.exe,.A..,Staging archive selected in browser file upload picker
+MFT-10560,2026-10-04 18:41:50,FILE_DELETE,C:\Users\Public\project_backup_v2.zip,0,dvance,cmd.exe,....,Anti-forensics cleanup: Staging zip deleted via del command
