@@ -1,0 +1,709 @@
+{
+  "case_name": "The Stolen Project Files",
+  "case_id": "2026-DFIR-0881",
+  "generated_at": "2026-10-05 21:11:26 UTC",
+  "confidence": {
+    "level": "HIGH",
+    "score_percentage": 98.5,
+    "rationale": "Direct multi-modal correlation: The RDP source IP, auth username, staging zip contents, network upload byte count, Chrome API response token, and RFC 5322 email headers form an unbroken, non-repudiable chain of custody."
+  },
+  "victim": {
+    "name": "Alex Mercer",
+    "student_id": "CS-2026-8841",
+    "device": "LAB-WS-07 (192.168.1.45)",
+    "project_name": "Autonomous Drone Navigation AI (LiDAR-Transformer Hybrid)"
+  },
+  "suspect": {
+    "name": "David Vance",
+    "student_id": "CS-2026-9012",
+    "account": "dvance",
+    "device": "DEV-LAPTOP-14 (192.168.1.78)",
+    "email_accounts": [
+      "dvance@university.edu",
+      "david.vance99@protonmail.com"
+    ]
+  },
+  "answers": {
+    "1_what_files_accessed": {
+      "question": "WHAT files/information were accessed?",
+      "summary": "Four confidential project files were compromised and bundled into a 142.8 MB archive:",
+      "items": [
+        {
+          "file": "drone_nav_core.py",
+          "size": "1.4 KB",
+          "description": "Proprietary Autonomous Drone Navigation core algorithm source code",
+          "evidence_ref": "MFT-10512, CARVED-ZIP-001"
+        },
+        {
+          "file": "neural_weights_v4.bin",
+          "size": "50.0 MB",
+          "description": "Trained transformer model weights representing 500+ flight simulation hours",
+          "evidence_ref": "MFT-10513, CARVED-ZIP-001"
+        },
+        {
+          "file": "dataset_lidar_final.parquet",
+          "size": "78.1 MB",
+          "description": "Raw LiDAR point cloud benchmark dataset",
+          "evidence_ref": "MFT-10514, CARVED-ZIP-001"
+        },
+        {
+          "file": "project_final_report.docx",
+          "size": "441.4 KB",
+          "description": "Unpublished final dissertation draft and patent disclosures",
+          "evidence_ref": "MFT-10515, CARVED-ZIP-001"
+        }
+      ]
+    },
+    "2_when_did_activity_occur": {
+      "question": "WHEN did the suspicious activity occur?",
+      "summary": "October 4, 2026 between 18:14:20 UTC and 18:42:10 UTC (Duration: ~28 minutes).",
+      "key_milestones": [
+        {
+          "time": "18:05:00 UTC",
+          "event": "Alex Mercer locks workstation LAB-WS-07"
+        },
+        {
+          "time": "18:14:22 UTC",
+          "event": "Unauthorized RDP session initiated by dvance"
+        },
+        {
+          "time": "18:17:45 UTC",
+          "event": "Directory traversal & file access"
+        },
+        {
+          "time": "18:22:10 UTC",
+          "event": "Staging zip archive created via 7z.exe"
+        },
+        {
+          "time": "18:28:30 UTC",
+          "event": "SanDisk USB storage device attached"
+        },
+        {
+          "time": "18:35:40 UTC",
+          "event": "142.8 MB cloud upload completed to dropfile.to"
+        },
+        {
+          "time": "18:38:05 UTC",
+          "event": "Exfiltration email dispatched via ProtonMail"
+        },
+        {
+          "time": "18:41:50 UTC",
+          "event": "Staging archive deleted & session terminated"
+        }
+      ]
+    },
+    "3_how_accessed": {
+      "question": "HOW were the files accessed?",
+      "summary": "Lateral Remote Desktop Protocol (RDP) session combined with local file system navigation.",
+      "mechanism": "The suspect established an RDP connection (Logon Type 10) from his personal laptop DEV-LAPTOP-14 (192.168.1.78) to victim machine LAB-WS-07 (192.168.1.45) on TCP port 3389 immediately after the victim locked the screen. Using GUI explorer and 7z.exe, the files in C:\\Projects\\FinalYear_DroneAI\\ were traversed and staged into C:\\Users\\Public\\project_backup_v2.zip.",
+      "evidence_refs": [
+        "Security.evtx EventID 4624 (LogonType 10)",
+        "Netflow FLOW-8810",
+        "NTUSER.DAT Shellbags",
+        "EventID 4688 (7z.exe)"
+      ]
+    },
+    "4_how_exfiltrated": {
+      "question": "HOW were they potentially exfiltrated/shared?",
+      "summary": "Dual-channel exfiltration: Anonymous Cloud File Upload + Direct Competitor Email Sharing (with backup USB copy).",
+      "details": [
+        "Primary Exfiltration: High-volume HTTPS POST upload (143.1 MB) via Google Chrome to ephemeral file hosting provider 'dropfile.to/api/upload' at IP 185.220.101.42.",
+        "Secondary Distribution: Outbound email from david.vance99@protonmail.com to Dr. Jonathan Stern (j.stern@competitor-lab.org) providing download URL 'https://dropfile.to/d/9x8K2L1q' and passcode 'droneAI_v4_secret' in exchange for research fellowship.",
+        "Physical Mirroring: USB drive copy attempted to 'E:\\Stolen_Dump\\project_backup_v2.zip' on SanDisk Ultra (Serial 4C530001290818115243)."
+      ],
+      "evidence_refs": [
+        "chrome_cache_metadata.json",
+        "FLOW-8830",
+        "exfil_notification.eml",
+        "USBSTOR registry"
+      ]
+    },
+    "5_who_source": {
+      "question": "WHO/WHICH ACCOUNT/DEVICE is the likely source?",
+      "suspect_name": "David Vance",
+      "suspect_id": "CS-2026-9012",
+      "user_account": "dvance (LAB-DOMAIN\\dvance)",
+      "originating_device": "DEV-LAPTOP-14",
+      "originating_ip": "192.168.1.78",
+      "evidence_refs": [
+        "Windows Security Log Event 4624 (Logon Type 10) specifying TargetUserName: dvance and WorkstationName: DEV-LAPTOP-14",
+        "Netflow FlowID FLOW-8810 showing source IP 192.168.1.78 to victim port 3389",
+        "RFC 5322 EML Header X-Originating-IP: [192.168.1.78] in david.vance99@protonmail.com message",
+        "USBSTOR serial 4C530001290818115243 assigned to David Vance in lab device inventory"
+      ]
+    },
+    "6_evidence_supporting_conclusion": {
+      "question": "What evidence supports the conclusion?",
+      "categories": [
+        {
+          "category": "Authentication Logs",
+          "details": "EventID 4624 (Logon Type 10 RDP) from 192.168.1.78 / dvance at 18:14:22 UTC"
+        },
+        {
+          "category": "Filesystem MFT & Carving",
+          "details": "MFT access records MFT-10512-10515, plus carved zip metadata CARVED-ZIP-001 verifying exact 4 project files"
+        },
+        {
+          "category": "Browser Artifacts",
+          "details": "Chrome history search for 'anonymous fast file sharing' + upload cache response containing download link"
+        },
+        {
+          "category": "Network PCAP / Netflow",
+          "details": "143.1 MB outbound flow FLOW-8830 to 185.220.101.42:443 matching archive size exactly"
+        },
+        {
+          "category": "Email Forensics",
+          "details": "DKIM-signed EML email from suspect offering stolen files to competitor lab for fellowship"
+        },
+        {
+          "category": "Anti-Forensics Traces",
+          "details": "EventID 4688 'cmd.exe /c del' of staging zip and browser incognito mode execution"
+        }
+      ]
+    }
+  },
+  "attack_chain": [
+    {
+      "stage": 1,
+      "title": "Unauthorized Access & Lateral Ingress",
+      "source_type": "Authentication / Network",
+      "details": "Remote Desktop (RDP) connection established to victim workstation LAB-WS-07 (192.168.1.45:3389) from DEV-LAPTOP-14 (192.168.1.78) using account 'dvance'.",
+      "evidence_refs": [
+        "EventID: 4624 (Logon Type 10)",
+        "FlowID: FLOW-8810"
+      ],
+      "timestamp": "2026-10-04 18:14:20"
+    },
+    {
+      "stage": 2,
+      "title": "Directory Traversal & Confidential File Access",
+      "source_type": "NTFS MFT / Shellbags",
+      "details": "User 'dvance' traversed Alex Mercer's confidential folder 'C:\\Projects\\FinalYear_DroneAI\\' and accessed core algorithms, model weights, lidar datasets, and final dissertation.",
+      "evidence_refs": [
+        "MFT-10512",
+        "MFT-10513",
+        "MFT-10514",
+        "MFT-10515",
+        "NTUSER.DAT\\Shellbags"
+      ],
+      "timestamp": "2026-10-04 18:17:45"
+    },
+    {
+      "stage": 3,
+      "title": "Data Staging & Compression",
+      "source_type": "Process Execution / File System",
+      "details": "Creation of single staging archive 'C:\\Users\\Public\\project_backup_v2.zip' (142.8 MB) using 7z.exe containing all four critical project files.",
+      "evidence_refs": [
+        "EventID: 4688 (7z.exe)",
+        "MFT-10520",
+        "CARVED-ZIP-001"
+      ],
+      "timestamp": "2026-10-04 18:22:10"
+    },
+    {
+      "stage": 4,
+      "title": "Physical / Secondary Exfiltration Attempt",
+      "source_type": "Registry (USBSTOR)",
+      "details": "Insertion of SanDisk Ultra USB 3.0 (Serial: 4C530001290818115243) mounted as E:\\, followed by copying staging archive to E:\\Stolen_Dump.",
+      "evidence_refs": [
+        "HKLM\\SYSTEM\\...\\USBSTOR",
+        "MFT-10535"
+      ],
+      "timestamp": "2026-10-04 18:28:30"
+    },
+    {
+      "stage": 5,
+      "title": "Network Cloud Exfiltration",
+      "source_type": "Browser / Netflow / PCAP",
+      "details": "Chrome launched in incognito mode to dropfile.to. Staging archive uploaded via HTTP POST to 185.220.101.42 (143,120,400 bytes). Received public download link https://dropfile.to/d/9x8K2L1q.",
+      "evidence_refs": [
+        "chrome_cache_metadata.json",
+        "FLOW-8830",
+        "PCAP SNI: dropfile.to"
+      ],
+      "timestamp": "2026-10-04 18:35:40"
+    },
+    {
+      "stage": 6,
+      "title": "External Distribution & Monetization",
+      "source_type": "Email Artefacts / Network Flow",
+      "details": "David Vance sent an email from david.vance99@protonmail.com to competitor lab (j.stern@competitor-lab.org) containing the dropfile.to link and encryption password.",
+      "evidence_refs": [
+        "exfil_notification.eml",
+        "FLOW-8835",
+        "PCAP SNI: mail.proton.me"
+      ],
+      "timestamp": "2026-10-04 18:38:05"
+    },
+    {
+      "stage": 7,
+      "title": "Anti-Forensics & Log Scrubbing",
+      "source_type": "Process Execution / MFT",
+      "details": "Execution of 'cmd.exe /c del' to permanently delete staging archive from C:\\Users\\Public\\ and termination of RDP session.",
+      "evidence_refs": [
+        "EventID: 4688 (cmd.exe del)",
+        "MFT-10560",
+        "EventID: 4634 (Logoff)"
+      ],
+      "timestamp": "2026-10-04 18:41:50"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-09-28 23:51:15",
+      "source": "Browser SQLite (Chrome)",
+      "event": "Web Visit",
+      "description": "Visited URL: https://www.google.com/search?q=anonymous+fast+file+sharing+no+registration (anonymous fast file sharing - Google Search)",
+      "reference": "chrome_history.sqlite - visits table",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-09-28 23:51:30",
+      "source": "Browser SQLite (Chrome)",
+      "event": "Web Visit",
+      "description": "Visited URL: https://dropfile.to/ (DropFile.to - Free Anonymous Large File Transfer)",
+      "reference": "chrome_history.sqlite - visits table",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-09-28 23:55:40",
+      "source": "Browser SQLite (Chrome)",
+      "event": "Web Visit",
+      "description": "Visited URL: https://dropfile.to/api/upload (DropFile API Endpoint)",
+      "reference": "chrome_history.sqlite - visits table",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-09-28 23:55:50",
+      "source": "Browser SQLite (Chrome)",
+      "event": "Web Visit",
+      "description": "Visited URL: https://dropfile.to/d/9x8K2L1q (DropFile.to - Download project_backup_v2.zip)",
+      "reference": "chrome_history.sqlite - visits table",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-09-28 23:57:00",
+      "source": "Browser SQLite (Chrome)",
+      "event": "Web Visit",
+      "description": "Visited URL: https://tempmail.org/ (Temp Mail - Disposable Temporary Email)",
+      "reference": "chrome_history.sqlite - visits table",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-09-28 23:58:00",
+      "source": "Browser SQLite (Chrome)",
+      "event": "Web Visit",
+      "description": "Visited URL: https://mail.proton.me/login (Proton Mail: Secure & Encrypted Email)",
+      "reference": "chrome_history.sqlite - visits table",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-02 14:12:00",
+      "source": "Email Artefact",
+      "event": "Email Sent",
+      "description": "From: David Vance <dvance@university.edu> To: Alex Mercer <amercer@university.edu> Subj: Quick question about your LiDAR training scripts | Body preview: Hey Alex,\n\nGreat presentation at the departmental seminar yesterday! Are you keeping all your final ...",
+      "reference": "internal_phishing.eml",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 08:30:15",
+      "source": "Security EventLogs",
+      "event": "Logon",
+      "description": "Normal morning logon by legitimate student Alex Mercer [User: amercer] [IP: 127.0.0.1]",
+      "reference": "EventID: 4624",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 09:15:00",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_MODIFY",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\drone_nav_core.py (User: amercer) - Routine development by author",
+      "reference": "MFT-10492",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 10:45:22",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_MODIFY",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\dataset_lidar_final.parquet (User: amercer) - Test flight dataset export",
+      "reference": "MFT-10493",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 16:30:10",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_MODIFY",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\project_final_report.docx (User: amercer) - Draft thesis updated",
+      "reference": "MFT-10494",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:05:00",
+      "source": "FileSystem (MFT)",
+      "event": "SESSION_LOCK",
+      "description": "C:\\Windows\\System32\\LogonUI.exe (User: amercer) - Workstation locked as Alex Mercer left for dinner",
+      "reference": "MFT-10500",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:05:00",
+      "source": "Security EventLogs",
+      "event": "Workstation Locked",
+      "description": "Alex Mercer locks workstation screen before leaving for dinner [User: amercer]",
+      "reference": "EventID: 4800",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:14:20",
+      "source": "Network (Netflow)",
+      "event": "Network Connection",
+      "description": "192.168.1.78:49822 -> 192.168.1.45:3389 (RDP) - Inbound RDP from David Vance laptop to Victim Workstation - Bytes: 4210500",
+      "reference": "FLOW-8810",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:14:20",
+      "source": "Network (PCAP)",
+      "event": "TLS/App Session",
+      "description": "192.168.1.78 to 192.168.1.45 - SNI/Service: Terminal Services - Method: N/A",
+      "reference": "lab_gateway_span_20261004.pcap",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:14:22",
+      "source": "Security EventLogs",
+      "event": "Logon",
+      "description": "UNAUTHORIZED REMOTE DESKTOP SESSION established from David Vance laptop [User: dvance] [IP: 192.168.1.78]",
+      "reference": "EventID: 4624",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:17:45",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_ACCESS",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\drone_nav_core.py (User: dvance) - Unauthorized directory traversal into Alex project",
+      "reference": "MFT-10512",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:17:45",
+      "source": "Registry (Shellbags)",
+      "event": "Folder Visited in Explorer",
+      "description": "Accessed C:\\Projects\\FinalYear_DroneAI via GUI by dvance",
+      "reference": "NTUSER.DAT\\Shellbags",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:17:50",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_ACCESS",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\neural_weights_v4.bin (User: dvance) - Accessed proprietary weights",
+      "reference": "MFT-10513",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:17:55",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_ACCESS",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\dataset_lidar_final.parquet (User: dvance) - Accessed lidar test datasets",
+      "reference": "MFT-10514",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:18:02",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_ACCESS",
+      "description": "C:\\Projects\\FinalYear_DroneAI\\project_final_report.docx (User: dvance) - Accessed dissertation document",
+      "reference": "MFT-10515",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:22:08",
+      "source": "Security EventLogs",
+      "event": "Process Creation",
+      "description": "Compression tool used to bundle all project files into staging area [User: dvance]",
+      "reference": "EventID: 4688",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:22:08",
+      "source": "Registry (UserAssist)",
+      "event": "Program Execution",
+      "description": "Executed 7z.exe (RunCount: 1)",
+      "reference": "NTUSER.DAT\\UserAssist",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:22:10",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_CREATE",
+      "description": "C:\\Users\\Public\\project_backup_v2.zip (User: dvance) - Staging archive created containing all project files",
+      "reference": "MFT-10520",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:22:15",
+      "source": "Registry (Shellbags)",
+      "event": "Folder Visited in Explorer",
+      "description": "Accessed C:\\Users\\Public via GUI by dvance",
+      "reference": "NTUSER.DAT\\Shellbags",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:28:30",
+      "source": "Security EventLogs",
+      "event": "Service Installed / Driver Load",
+      "description": "USB Storage driver engaged upon external drive connection",
+      "reference": "EventID: 7045",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:28:30",
+      "source": "Registry (USBSTOR)",
+      "event": "USB device inserted",
+      "description": "Device SanDisk Ultra USB 3.0 (Serial: 4C530001290818115243) attached to E:",
+      "reference": "HKLM\\SYSTEM\\CurrentControlSet\\Enum\\USBSTOR",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:29:10",
+      "source": "Registry (Shellbags)",
+      "event": "Folder Visited in Explorer",
+      "description": "Accessed E:\\Stolen_Dump via GUI by dvance",
+      "reference": "NTUSER.DAT\\Shellbags",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:29:12",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_CREATE",
+      "description": "E:\\Stolen_Dump\\project_backup_v2.zip (User: dvance) - Copy attempted to Removable USB Drive (SanDisk)",
+      "reference": "MFT-10535",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:31:10",
+      "source": "Security EventLogs",
+      "event": "Process Creation",
+      "description": "Browser launched in incognito mode targeting file upload service [User: dvance]",
+      "reference": "EventID: 4688",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:31:10",
+      "source": "Registry (UserAssist)",
+      "event": "Program Execution",
+      "description": "Executed chrome.exe (RunCount: 4)",
+      "reference": "NTUSER.DAT\\UserAssist",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:31:12",
+      "source": "Network (Netflow)",
+      "event": "Network Connection",
+      "description": "192.168.1.45:51204 -> 8.8.8.8:53 (DNS) - DNS Query for dropfile.to -> 185.220.101.42 - Bytes: 142",
+      "reference": "FLOW-8824",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:31:12",
+      "source": "Network (PCAP)",
+      "event": "DNS Query",
+      "description": "Client 192.168.1.45 queried dropfile.to -> resolved to 185.220.101.42",
+      "reference": "lab_gateway_span_20261004.pcap",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:31:14",
+      "source": "Network (Netflow)",
+      "event": "Network Connection",
+      "description": "192.168.1.45:51206 -> 185.220.101.42:443 (TLS/HTTPS) - Initial HTTPS connection to dropfile.to landing page - Bytes: 48200",
+      "reference": "FLOW-8825",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:31:20",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_ACCESS",
+      "description": "C:\\Users\\Public\\project_backup_v2.zip (User: dvance) - Staging archive selected in browser file upload picker",
+      "reference": "MFT-10548",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:34:10",
+      "source": "Network (PCAP)",
+      "event": "DNS Query",
+      "description": "Client 192.168.1.45 queried tempmail.org -> resolved to 104.21.34.12",
+      "reference": "lab_gateway_span_20261004.pcap",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:35:35",
+      "source": "Network (Netflow)",
+      "event": "Network Connection",
+      "description": "192.168.1.45:51240 -> 185.220.101.42:443 (TLS/HTTPS) - MASSIVE EXFILTRATION: Upload of 142.8 MB zip archive to dropfile.to - Bytes: 143120400",
+      "reference": "FLOW-8830",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:35:35",
+      "source": "Network (PCAP)",
+      "event": "TLS/App Session",
+      "description": "192.168.1.45 to 185.220.101.42 - SNI/Service: dropfile.to - Method: POST /api/upload",
+      "reference": "lab_gateway_span_20261004.pcap",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:35:40",
+      "source": "Browser Cache/Metadata",
+      "event": "Browser File Upload / Exfiltration",
+      "description": "Action: HTTP_MULTIPART_POST_UPLOAD to https://dropfile.to/api/upload - File: C:\\Users\\Public\\project_backup_v2.zip (142840112 bytes). Response ID: 9x8K2L1q",
+      "reference": "chrome_cache_metadata.json",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:37:50",
+      "source": "Network (PCAP)",
+      "event": "DNS Query",
+      "description": "Client 192.168.1.78 queried mail.proton.me -> resolved to 185.70.40.185",
+      "reference": "lab_gateway_span_20261004.pcap",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:38:00",
+      "source": "Network (Netflow)",
+      "event": "Network Connection",
+      "description": "192.168.1.78:52100 -> 185.70.40.185:443 (TLS/HTTPS) - ProtonMail webmail connection to send exfiltration email - Bytes: 185400",
+      "reference": "FLOW-8835",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:38:00",
+      "source": "Network (PCAP)",
+      "event": "TLS/App Session",
+      "description": "192.168.1.78 to 185.70.40.185 - SNI/Service: mail.proton.me - Method: POST /api/messages",
+      "reference": "lab_gateway_span_20261004.pcap",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:38:05",
+      "source": "Email Artefact",
+      "event": "Email Sent",
+      "description": "From: David Vance <david.vance99@protonmail.com> To: \"Dr. Jonathan Stern\" <j.stern@competitor-lab.org> Subj: Final Drone AI Codebase & Trained Model Weights (Alex's Project) | Body preview: Dear Dr. Stern,\n\nFollowing our discussion regarding the funded research fellowship in your autonomou...",
+      "reference": "exfil_notification.eml",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:40:15",
+      "source": "Registry (USBSTOR)",
+      "event": "USB device removed",
+      "description": "Device SanDisk Ultra USB 3.0 removed",
+      "reference": "HKLM\\SYSTEM\\CurrentControlSet\\Enum\\USBSTOR",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:41:48",
+      "source": "Security EventLogs",
+      "event": "Process Creation",
+      "description": "Command executed to delete staging zip file from disk [User: dvance]",
+      "reference": "EventID: 4688",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:41:48",
+      "source": "Registry (UserAssist)",
+      "event": "Program Execution",
+      "description": "Executed cmd.exe (RunCount: 3)",
+      "reference": "NTUSER.DAT\\UserAssist",
+      "is_suspicious": false
+    },
+    {
+      "timestamp": "2026-10-04 18:41:50",
+      "source": "FileSystem (MFT)",
+      "event": "FILE_DELETE",
+      "description": "C:\\Users\\Public\\project_backup_v2.zip (User: dvance) - Anti-forensics cleanup: Staging zip deleted via del command",
+      "reference": "MFT-10560",
+      "is_suspicious": true
+    },
+    {
+      "timestamp": "2026-10-04 18:42:10",
+      "source": "Security EventLogs",
+      "event": "Logoff",
+      "description": "David Vance terminates RDP session after exfiltration [User: dvance] [IP: 192.168.1.78]",
+      "reference": "EventID: 4634",
+      "is_suspicious": true
+    }
+  ],
+  "evidence_ledger": {
+    "C:\\dev\\Trace-Valut\\evidence\\auth_logs\\Security_EventLogs.json": {
+      "filename": "Security_EventLogs.json",
+      "sha256": "8d9e384c3ea4cfdef0ef7fc905771fa1a127ab1554436c5c09309a713db01023",
+      "size_bytes": 3233
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\auth_logs\\system_registry.json": {
+      "filename": "system_registry.json",
+      "sha256": "f151f995499f33c0ddcd64c4a041b8f44a9cc2e60c9e1c9a1519516b0cf976de",
+      "size_bytes": 1430
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\browser\\chrome_cache_metadata.json": {
+      "filename": "chrome_cache_metadata.json",
+      "sha256": "d458e6f3576e2935676759902a3a1e42a99bfad76f6e34737340664eb2a36bd1",
+      "size_bytes": 864
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\browser\\chrome_history.sqlite": {
+      "filename": "chrome_history.sqlite",
+      "sha256": "b1be6b0bad28fd3b6673a4f98a924c66a1e8a5126c533eec1cf273495ef1b9b2",
+      "size_bytes": 16384
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\email\\exfil_notification.eml": {
+      "filename": "exfil_notification.eml",
+      "sha256": "0b95c4f4b21fc771986df8b6cbd7729638148d07846b3f142ca1f924f2175ee7",
+      "size_bytes": 1818
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\email\\internal_phishing.eml": {
+      "filename": "internal_phishing.eml",
+      "sha256": "7200bd26ae9c1e3ea6e8336a057eee56fb1ee785fb7718293d85398ce2461dd9",
+      "size_bytes": 669
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\filesystem\\mft_timeline.csv": {
+      "filename": "mft_timeline.csv",
+      "sha256": "258e6c678840eed14256f8e7561b31112433d39a44ba69f8cbdd2700f1e31b06",
+      "size_bytes": 2025
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\filesystem\\deleted_staging\\project_backup_v2.zip.deleted.meta": {
+      "filename": "project_backup_v2.zip.deleted.meta",
+      "sha256": "41f9c7ac9c0095b7b3c854c16dfb8b291e62723b5b02170998234e9ec2b9341f",
+      "size_bytes": 991
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\dataset_lidar_final.parquet": {
+      "filename": "dataset_lidar_final.parquet",
+      "sha256": "620c7cb0f6a2a48a4f0da6f1d264d4787ce9708527f3872fa912dd369c14b613",
+      "size_bytes": 8248
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\drone_nav_core.py": {
+      "filename": "drone_nav_core.py",
+      "sha256": "54cf7b3f36271e97105f667659bcbfd0295e35a56f7e367281eeb893141cf641",
+      "size_bytes": 1101
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\neural_weights_v4.bin": {
+      "filename": "neural_weights_v4.bin",
+      "sha256": "f7246a93a6c9db15603515aebd13efb9565be149b777d8382cf45e69b148756f",
+      "size_bytes": 4149
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\project_final_report.docx": {
+      "filename": "project_final_report.docx",
+      "sha256": "15b572d26ed469d870ec1584c47eba982b5a9972c193dd97a3a0ec7a501c33f9",
+      "size_bytes": 617
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\network\\netflow_connections.csv": {
+      "filename": "netflow_connections.csv",
+      "sha256": "f16424defbd8deb2ea4e5ddf60f6600d50527d76f8c7e4951bbb2b8b2dbd3f82",
+      "size_bytes": 960
+    },
+    "C:\\dev\\Trace-Valut\\evidence\\network\\pcap_dns_http_summary.json": {
+      "filename": "pcap_dns_http_summary.json",
+      "sha256": "13aba213c9309495d88e57947f3be6df1b82f51f7a083e3275b47a437ba3941e",
+      "size_bytes": 1455
+    }
+  }
+}

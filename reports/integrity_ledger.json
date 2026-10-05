@@ -1,0 +1,72 @@
+{
+  "C:\\dev\\Trace-Valut\\evidence\\auth_logs\\Security_EventLogs.json": {
+    "filename": "Security_EventLogs.json",
+    "sha256": "8d9e384c3ea4cfdef0ef7fc905771fa1a127ab1554436c5c09309a713db01023",
+    "size_bytes": 3233
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\auth_logs\\system_registry.json": {
+    "filename": "system_registry.json",
+    "sha256": "f151f995499f33c0ddcd64c4a041b8f44a9cc2e60c9e1c9a1519516b0cf976de",
+    "size_bytes": 1430
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\browser\\chrome_cache_metadata.json": {
+    "filename": "chrome_cache_metadata.json",
+    "sha256": "d458e6f3576e2935676759902a3a1e42a99bfad76f6e34737340664eb2a36bd1",
+    "size_bytes": 864
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\browser\\chrome_history.sqlite": {
+    "filename": "chrome_history.sqlite",
+    "sha256": "b1be6b0bad28fd3b6673a4f98a924c66a1e8a5126c533eec1cf273495ef1b9b2",
+    "size_bytes": 16384
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\email\\exfil_notification.eml": {
+    "filename": "exfil_notification.eml",
+    "sha256": "0b95c4f4b21fc771986df8b6cbd7729638148d07846b3f142ca1f924f2175ee7",
+    "size_bytes": 1818
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\email\\internal_phishing.eml": {
+    "filename": "internal_phishing.eml",
+    "sha256": "7200bd26ae9c1e3ea6e8336a057eee56fb1ee785fb7718293d85398ce2461dd9",
+    "size_bytes": 669
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\filesystem\\mft_timeline.csv": {
+    "filename": "mft_timeline.csv",
+    "sha256": "258e6c678840eed14256f8e7561b31112433d39a44ba69f8cbdd2700f1e31b06",
+    "size_bytes": 2025
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\filesystem\\deleted_staging\\project_backup_v2.zip.deleted.meta": {
+    "filename": "project_backup_v2.zip.deleted.meta",
+    "sha256": "41f9c7ac9c0095b7b3c854c16dfb8b291e62723b5b02170998234e9ec2b9341f",
+    "size_bytes": 991
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\dataset_lidar_final.parquet": {
+    "filename": "dataset_lidar_final.parquet",
+    "sha256": "620c7cb0f6a2a48a4f0da6f1d264d4787ce9708527f3872fa912dd369c14b613",
+    "size_bytes": 8248
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\drone_nav_core.py": {
+    "filename": "drone_nav_core.py",
+    "sha256": "54cf7b3f36271e97105f667659bcbfd0295e35a56f7e367281eeb893141cf641",
+    "size_bytes": 1101
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\neural_weights_v4.bin": {
+    "filename": "neural_weights_v4.bin",
+    "sha256": "f7246a93a6c9db15603515aebd13efb9565be149b777d8382cf45e69b148756f",
+    "size_bytes": 4149
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\filesystem\\victim_project\\project_final_report.docx": {
+    "filename": "project_final_report.docx",
+    "sha256": "15b572d26ed469d870ec1584c47eba982b5a9972c193dd97a3a0ec7a501c33f9",
+    "size_bytes": 617
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\network\\netflow_connections.csv": {
+    "filename": "netflow_connections.csv",
+    "sha256": "f16424defbd8deb2ea4e5ddf60f6600d50527d76f8c7e4951bbb2b8b2dbd3f82",
+    "size_bytes": 960
+  },
+  "C:\\dev\\Trace-Valut\\evidence\\network\\pcap_dns_http_summary.json": {
+    "filename": "pcap_dns_http_summary.json",
+    "sha256": "13aba213c9309495d88e57947f3be6df1b82f51f7a083e3275b47a437ba3941e",
+    "size_bytes": 1455
+  }
+}

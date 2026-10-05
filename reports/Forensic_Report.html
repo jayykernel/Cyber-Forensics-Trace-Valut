@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFIR Forensic Investigation Report - The Stolen Project Files</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --heading: #58a6ff;
+            --accent: #238636;
+            --danger: #f85149;
+            --warning: #d29922;
+            --info: #388bfd;
+        }
+        @media print {
+            body { background: #fff !important; color: #111 !important; }
+            .card { border: 1px solid #ccc !important; background: #fff !important; box-shadow: none !important; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+        .badge-danger { background: rgba(248, 81, 73, 0.2); color: var(--danger); border: 1px solid var(--danger); }
+        .badge-success { background: rgba(35, 134, 54, 0.2); color: #3fb950; border: 1px solid #3fb950; }
+        .badge-warning { background: rgba(210, 153, 34, 0.2); color: var(--warning); border: 1px solid var(--warning); }
+        .badge-info { background: rgba(56, 139, 253, 0.2); color: var(--info); border: 1px solid var(--info); }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        h1, h2, h3, h4 { color: #f0f6fc; margin-top: 0; }
+        h2 { border-bottom: 1px solid var(--border); padding-bottom: 8px; color: var(--heading); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9em;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: #21262d;
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        code {
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            background: rgba(110,118,129,0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #79c0ff;
+            font-size: 0.9em;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .timeline-step {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 18px;
+            border-left: 2px solid var(--info);
+        }
+        .timeline-step::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--info);
+        }
+        .timeline-step.suspicious {
+            border-left-color: var(--danger);
+        }
+        .timeline-step.suspicious::before {
+            background: var(--danger);
+            box-shadow: 0 0 8px var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h1>Digital Forensics Case Investigation Report</h1>
+                    <p style="margin:4px 0; color:#8b949e;">CASE ID: <strong>2026-DFIR-0881</strong> &bull; Incident: <strong>"The Stolen Project Files"</strong></p>
+                </div>
+                <div style="text-align:right;">
+                    <span class="badge badge-danger" style="font-size:1.1em;">VERDICT: GUILTY / PROVEN</span>
+                    <p style="margin:6px 0 0 0; color:#8b949e; font-size:0.85em;">Confidence: <strong>98.5% (HIGH)</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h3>Victim Profile</h3>
+                <p><strong>Name:</strong> Alex Mercer</p>
+                <p><strong>Student ID:</strong> <code>CS-2026-8841</code></p>
+                <p><strong>Workstation:</strong> <code>LAB-WS-07 (192.168.1.45)</code></p>
+                <p><strong>Confidential Project:</strong> Autonomous Drone Navigation AI (LiDAR-Transformer Hybrid)</p>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--danger);">
+                <h3>Identified Suspect Profile</h3>
+                <p><strong>Name:</strong> <span style="color:var(--danger); font-weight:bold;">David Vance</span></p>
+                <p><strong>Student ID:</strong> <code>CS-2026-9012</code></p>
+                <p><strong>Account:</strong> <code>dvance</code></p>
+                <p><strong>Originating Device:</strong> <code>DEV-LAPTOP-14 (192.168.1.78)</code></p>
+                <p><strong>External Emails:</strong> <code>dvance@university.edu, david.vance99@protonmail.com</code></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>1. Executive Summary</h2>
+            <p>On <strong>October 4, 2026</strong>, between <strong>18:14:20 UTC and 18:42:10 UTC</strong>, unauthorized remote desktop access was established from <code>192.168.1.78</code> (David Vance's laptop) into workstation <code>LAB-WS-07</code> (Alex Mercer). The attacker copied four confidential research files, bundled them into <code>C:\Users\Public\project_backup_v2.zip</code> (142.8 MB), uploaded the payload via Chrome to anonymous cloud service <code>dropfile.to</code>, attempted USB storage transfer, and emailed access credentials to <code>competitor-lab.org</code> in exchange for a funded research fellowship.</p>
+        </div>
+
+        <div class="card">
+            <h2>2. Core Investigative Answers</h2>
+
+            <h4>Q1: WHAT files/information were accessed?</h4>
+            <table>
+                <thead>
+                    <tr><th>File Name</th><th>Size</th><th>Description</th><th>Evidence Ref</th></tr>
+                </thead>
+                <tbody>
+<tr><td><code>drone_nav_core.py</code></td><td>1.4 KB</td><td>Proprietary Autonomous Drone Navigation core algorithm source code</td><td><code>MFT-10512, CARVED-ZIP-001</code></td></tr><tr><td><code>neural_weights_v4.bin</code></td><td>50.0 MB</td><td>Trained transformer model weights representing 500+ flight simulation hours</td><td><code>MFT-10513, CARVED-ZIP-001</code></td></tr><tr><td><code>dataset_lidar_final.parquet</code></td><td>78.1 MB</td><td>Raw LiDAR point cloud benchmark dataset</td><td><code>MFT-10514, CARVED-ZIP-001</code></td></tr><tr><td><code>project_final_report.docx</code></td><td>441.4 KB</td><td>Unpublished final dissertation draft and patent disclosures</td><td><code>MFT-10515, CARVED-ZIP-001</code></td></tr>
+                </tbody>
+            </table>
+
+            <h4>Q2: WHEN did the suspicious activity occur?</h4>
+            <p><strong>Window:</strong> October 4, 2026 between 18:14:20 UTC and 18:42:10 UTC (Duration: ~28 minutes).</p>
+
+            <h4>Q3: HOW were the files accessed?</h4>
+            <p>The suspect established an RDP connection (Logon Type 10) from his personal laptop DEV-LAPTOP-14 (192.168.1.78) to victim machine LAB-WS-07 (192.168.1.45) on TCP port 3389 immediately after the victim locked the screen. Using GUI explorer and 7z.exe, the files in C:\Projects\FinalYear_DroneAI\ were traversed and staged into C:\Users\Public\project_backup_v2.zip.</p>
+
+            <h4>Q4: HOW were they potentially exfiltrated/shared?</h4>
+            <ul>
+<li>Primary Exfiltration: High-volume HTTPS POST upload (143.1 MB) via Google Chrome to ephemeral file hosting provider 'dropfile.to/api/upload' at IP 185.220.101.42.</li><li>Secondary Distribution: Outbound email from david.vance99@protonmail.com to Dr. Jonathan Stern (j.stern@competitor-lab.org) providing download URL 'https://dropfile.to/d/9x8K2L1q' and passcode 'droneAI_v4_secret' in exchange for research fellowship.</li><li>Physical Mirroring: USB drive copy attempted to 'E:\Stolen_Dump\project_backup_v2.zip' on SanDisk Ultra (Serial 4C530001290818115243).</li>
+            </ul>
+
+            <h4>Q5: WHO/WHICH ACCOUNT/DEVICE is the likely source?</h4>
+            <p><strong>Suspect:</strong> David Vance (Account: <code>dvance</code>, Device: <code>DEV-LAPTOP-14 (192.168.1.78)</code>).</p>
+
+            <h4>Q6: What evidence supports the conclusion?</h4>
+            <table>
+                <thead><tr><th>Modality</th><th>Verified Findings</th></tr></thead>
+                <tbody>
+<tr><td><strong>Authentication Logs</strong></td><td>EventID 4624 (Logon Type 10 RDP) from 192.168.1.78 / dvance at 18:14:22 UTC</td></tr><tr><td><strong>Filesystem MFT & Carving</strong></td><td>MFT access records MFT-10512-10515, plus carved zip metadata CARVED-ZIP-001 verifying exact 4 project files</td></tr><tr><td><strong>Browser Artifacts</strong></td><td>Chrome history search for 'anonymous fast file sharing' + upload cache response containing download link</td></tr><tr><td><strong>Network PCAP / Netflow</strong></td><td>143.1 MB outbound flow FLOW-8830 to 185.220.101.42:443 matching archive size exactly</td></tr><tr><td><strong>Email Forensics</strong></td><td>DKIM-signed EML email from suspect offering stolen files to competitor lab for fellowship</td></tr><tr><td><strong>Anti-Forensics Traces</strong></td><td>EventID 4688 'cmd.exe /c del' of staging zip and browser incognito mode execution</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>3. Attack Chain Incident Reconstruction</h2>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 1: Unauthorized Access & Lateral Ingress</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:14:20 UTC)</span><br>
+                <small style="color:var(--heading);">Source: Authentication / Network</small>
+                <p style="margin:4px 0;">Remote Desktop (RDP) connection established to victim workstation LAB-WS-07 (192.168.1.45:3389) from DEV-LAPTOP-14 (192.168.1.78) using account 'dvance'.</p>
+                <small>Evidence: <code>EventID: 4624 (Logon Type 10), FlowID: FLOW-8810</code></small>
+            </div>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 2: Directory Traversal & Confidential File Access</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:17:45 UTC)</span><br>
+                <small style="color:var(--heading);">Source: NTFS MFT / Shellbags</small>
+                <p style="margin:4px 0;">User 'dvance' traversed Alex Mercer's confidential folder 'C:\Projects\FinalYear_DroneAI\' and accessed core algorithms, model weights, lidar datasets, and final dissertation.</p>
+                <small>Evidence: <code>MFT-10512, MFT-10513, MFT-10514, MFT-10515, NTUSER.DAT\Shellbags</code></small>
+            </div>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 3: Data Staging & Compression</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:22:10 UTC)</span><br>
+                <small style="color:var(--heading);">Source: Process Execution / File System</small>
+                <p style="margin:4px 0;">Creation of single staging archive 'C:\Users\Public\project_backup_v2.zip' (142.8 MB) using 7z.exe containing all four critical project files.</p>
+                <small>Evidence: <code>EventID: 4688 (7z.exe), MFT-10520, CARVED-ZIP-001</code></small>
+            </div>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 4: Physical / Secondary Exfiltration Attempt</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:28:30 UTC)</span><br>
+                <small style="color:var(--heading);">Source: Registry (USBSTOR)</small>
+                <p style="margin:4px 0;">Insertion of SanDisk Ultra USB 3.0 (Serial: 4C530001290818115243) mounted as E:\, followed by copying staging archive to E:\Stolen_Dump.</p>
+                <small>Evidence: <code>HKLM\SYSTEM\...\USBSTOR, MFT-10535</code></small>
+            </div>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 5: Network Cloud Exfiltration</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:35:40 UTC)</span><br>
+                <small style="color:var(--heading);">Source: Browser / Netflow / PCAP</small>
+                <p style="margin:4px 0;">Chrome launched in incognito mode to dropfile.to. Staging archive uploaded via HTTP POST to 185.220.101.42 (143,120,400 bytes). Received public download link https://dropfile.to/d/9x8K2L1q.</p>
+                <small>Evidence: <code>chrome_cache_metadata.json, FLOW-8830, PCAP SNI: dropfile.to</code></small>
+            </div>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 6: External Distribution & Monetization</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:38:05 UTC)</span><br>
+                <small style="color:var(--heading);">Source: Email Artefacts / Network Flow</small>
+                <p style="margin:4px 0;">David Vance sent an email from david.vance99@protonmail.com to competitor lab (j.stern@competitor-lab.org) containing the dropfile.to link and encryption password.</p>
+                <small>Evidence: <code>exfil_notification.eml, FLOW-8835, PCAP SNI: mail.proton.me</code></small>
+            </div>
+
+            <div class="timeline-step suspicious">
+                <strong>Stage 7: Anti-Forensics & Log Scrubbing</strong> <span style="color:#8b949e; font-size:0.85em;">(2026-10-04 18:41:50 UTC)</span><br>
+                <small style="color:var(--heading);">Source: Process Execution / MFT</small>
+                <p style="margin:4px 0;">Execution of 'cmd.exe /c del' to permanently delete staging archive from C:\Users\Public\ and termination of RDP session.</p>
+                <small>Evidence: <code>EventID: 4688 (cmd.exe del), MFT-10560, EventID: 4634 (Logoff)</code></small>
+            </div>
+
+        </div>
+
+        <div class="card">
+            <h2>4. Evidence Integrity Verification (SHA-256)</h2>
+            <table>
+                <thead><tr><th>Evidence File</th><th>Size (Bytes)</th><th>SHA-256 Hash</th><th>Status</th></tr></thead>
+                <tbody>
+<tr><td><code>evidence\auth_logs\Security_EventLogs.json</code></td><td>3233</td><td><small><code>8d9e384c3ea4cfdef0ef7fc905771fa1a127ab1554436c5c09309a713db01023</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\auth_logs\system_registry.json</code></td><td>1430</td><td><small><code>f151f995499f33c0ddcd64c4a041b8f44a9cc2e60c9e1c9a1519516b0cf976de</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\browser\chrome_cache_metadata.json</code></td><td>864</td><td><small><code>d458e6f3576e2935676759902a3a1e42a99bfad76f6e34737340664eb2a36bd1</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\browser\chrome_history.sqlite</code></td><td>16384</td><td><small><code>b1be6b0bad28fd3b6673a4f98a924c66a1e8a5126c533eec1cf273495ef1b9b2</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\email\exfil_notification.eml</code></td><td>1818</td><td><small><code>0b95c4f4b21fc771986df8b6cbd7729638148d07846b3f142ca1f924f2175ee7</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\email\internal_phishing.eml</code></td><td>669</td><td><small><code>7200bd26ae9c1e3ea6e8336a057eee56fb1ee785fb7718293d85398ce2461dd9</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\filesystem\mft_timeline.csv</code></td><td>2025</td><td><small><code>258e6c678840eed14256f8e7561b31112433d39a44ba69f8cbdd2700f1e31b06</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\filesystem\deleted_staging\project_backup_v2.zip.deleted.meta</code></td><td>991</td><td><small><code>41f9c7ac9c0095b7b3c854c16dfb8b291e62723b5b02170998234e9ec2b9341f</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\filesystem\victim_project\dataset_lidar_final.parquet</code></td><td>8248</td><td><small><code>620c7cb0f6a2a48a4f0da6f1d264d4787ce9708527f3872fa912dd369c14b613</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\filesystem\victim_project\drone_nav_core.py</code></td><td>1101</td><td><small><code>54cf7b3f36271e97105f667659bcbfd0295e35a56f7e367281eeb893141cf641</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\filesystem\victim_project\neural_weights_v4.bin</code></td><td>4149</td><td><small><code>f7246a93a6c9db15603515aebd13efb9565be149b777d8382cf45e69b148756f</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\filesystem\victim_project\project_final_report.docx</code></td><td>617</td><td><small><code>15b572d26ed469d870ec1584c47eba982b5a9972c193dd97a3a0ec7a501c33f9</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\network\netflow_connections.csv</code></td><td>960</td><td><small><code>f16424defbd8deb2ea4e5ddf60f6600d50527d76f8c7e4951bbb2b8b2dbd3f82</code></small></td><td><span class="badge badge-success">PASS</span></td></tr><tr><td><code>evidence\network\pcap_dns_http_summary.json</code></td><td>1455</td><td><small><code>13aba213c9309495d88e57947f3be6df1b82f51f7a083e3275b47a437ba3941e</code></small></td><td><span class="badge badge-success">PASS</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card no-print" style="text-align:center; padding:16px;">
+            <p style="color:#8b949e;">Report generated automatically by Trace-Vault Forensic Intelligence Engine.</p>
+            <button onclick="window.print()" style="background:var(--heading); border:none; color:#000; padding:10px 20px; font-weight:bold; border-radius:6px; cursor:pointer;">Print / Save as PDF</button>
+        </div>
+    </div>
+</body>
+</html>
